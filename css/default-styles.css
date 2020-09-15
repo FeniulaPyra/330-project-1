@@ -1,0 +1,115 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-family: "Itim", monospace;
+	}
+
+body {
+	padding-left: 5rem;
+	padding-right: 5rem;
+}
+
+#centerer {
+	width: 100%;
+	text-align: center;
+}
+
+canvas {
+	border: ridge .75rem #963;
+	display: inline;
+}
+
+ul {
+	list-style: none;
+}
+li{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 1rem 2rem;
+}
+
+input[type="number"] {
+	width: 2.5rem;
+}
+input[disabled] {
+	color: gray;
+}
+
+#stemHue {
+	background: hsl(60, 50%, 70%);
+}
+#stemHueVar {
+	background: hsl(100, 50%, 70%);
+}
+#leafHue {
+	background: hsl(60, 50%, 70%);
+}
+
+#leafHueVar {
+	background: hsl(100, 50%, 70%);
+}
+
+#fruitHue {
+	background: hsl(300, 50%, 70%);
+
+}
+#fruitHueVar {
+	background: hsl(360, 50%, 70%);
+
+}
+
+#petalHue {
+	background: hsl(300, 50%, 70%);
+}
+#petalHueVar {
+	background: hsl(360, 50%, 70%);
+}
+
+#seedHue {
+	background: hsl(40, 50%, 70%);
+}
+#seedHueVar {
+	background: hsl(60, 50%, 70%);
+}
+
+#leavesControls, #fruitControls {
+	display: none;
+}
+
+#floraControls {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-areas: 
+		". isTree ."
+		"stem main deco";
+}
+
+#floraControls>p {
+	grid-area: isTree;
+	text-align: center;
+}
+
+#floraControls h2{
+	text-align: center;
+	padding: 1rem;
+	background: linear-gradient(#aaf, #bbf);
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+#floraControls section {
+	background: linear-gradient(#beb, #afa);
+	margin: 1rem 2rem;
+	border-radius: 10px;
+}
+
+#stemControls {
+	grid-area: stem;
+}
+#leavesControls, #petalControls {
+	grid-area: main;
+}
+#fruitControls, #seedControls {
+	grid-area: deco;
+}

@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="css/default-styles.css">
+	</head>
+	<body>
+		<section id="flowerGeneration">
+			<div id="centerer">
+			<canvas id="flower" width="320" height="320">
+				Will display a generated flower on a functional browser.
+			</canvas>
+			</div>
+			<aside id="floraControls">
+				<p><input type="checkbox" id="isTree">🌳?</p>
+				<section id="stemControls">
+					<h2>Stem Controls</h2>
+					<ul>
+						<li>
+							<label for="stemHeight">Height</label>
+							<input type="number" id="stemHeight" min=1 max=320 step=1 value=160>
+						</li>
+						<li>
+							<label for="stemWidth">Width</label>
+							<input type="number" id="stemWidth" min=1 max=100 step=1 value=10>
+						</li>
+						<li>
+							<label for="stemWiggle">Wiggle</label>
+							<input type="number" id="stemWiggle" min=0, max=50 step=1 value=5>
+						</li>
+						<li>
+							<p>Color:</p>
+							<div id="stemMinColor">
+								<label for="stemHue">H</label>
+								<input type="number" id="stemHue" min=0 max=360 step=1 value=60>
+								|
+								<label for="stemSaturation">S</label>
+								<input type="number" id="stemSaturation" min=0 max=100 step=1 value=50>
+								|
+								<label for="stemLightness">L</label>
+								<input type="number" id="stemLightness" min=0 max=100 step=1 value=50>
+							</div>
+						</li>
+						<li>
+							<p><input type="checkbox" id="includeMaxStemColor" checked>Max Color:</p>
+							<div id="stemMaxColor">
+								<label for="stemHueVar">H</label>
+								<input type="number" id="stemHueVar" min=0 max=360 step=1 value=100>
+								|
+								<label for="stemSaturationVar">S</label>
+								<input type="number" id="stemSaturationVar" min=0 max=100 step=1 value=50>
+								|
+								<label for="stemLightnessVar">L</label>
+								<input type="number" id="stemLightnessVar" min=0 max=100 step=1 value=50>
+							</div>
+						</li>
+					</ul>
+				</section>
+				<section id="leavesControls">
+					<h2>Leaves Controls</h2>
+					<ul>
+						<li>
+							<label for="leafRadius">Treetop Radius</label>
+							<input id="leafRadius" type="number" min=0 max=160 value=50>
+						</li>
+						<li>
+							<label for="leafJitter">Leaf Randomness</label>
+							<input id="leafJitter" type="number" min=0 max=25 value=10>
+						</li>
+						<li>
+							<p>Color:</p>
+							<div id="leafMinColor">
+								<label for="leafHue">H</label>
+								<input type="number" id="leafHue" min=0 max=360 step=1 value=60>
+								|
+								<label for="leafSaturation">S</label>
+								<input type="number" id="leafSaturation" min=0 max=100 step=1 value=50>
+								|
+								<label for="leafLightness">L</label>
+								<input type="number" id="leafLightness" min=0 max=100 step=1 value=50>
+							</div>
+						</li>
+						<li>
+							<p><input type="checkbox" id="includeMaxLeafColor" checked>Max Color:</p>
+							<div id="leafMaxColor">
+								<label for="leafHueVar">H</label>
+								<input type="number" id="leafHueVar" min=0 max=360 step=1 value=100>
+								|
+								<label for="leafSaturationVar">S</label>
+								<input type="number" id="leafSaturationVar" min=0 max=100 step=1 value=100>
+								|
+								<label for="leafLightnessVar">L</label>
+								<input type="number" id="leafLightnessVar" min=0 max=100 step=1 value=25>
+							</div>
+						</li>
+					</ul>
+				</section>
+				<section id="fruitControls">
+					<h2>Fruit Controls</h2>
+					<ul>
+						<li>
+							<label for="fruitRadius">Fruit Size</label>
+							<input id="fruitRadius" type="number" min=0 max=100 value=30>
+						</li>
+						<li>
+							<label for="fruitCount">Number of Fruits</label>
+							<input id="fruitCount" type="number" min=0 max=100 value=15>
+						</li>
+						<li>
+							<p>Color:</p>
+							<div id="fruitMinColor">
+								<label for="fruitHue">H</label>
+								<input type="number" id="fruitHue" min=0 max=360 step=1 value=300>
+								|
+								<label for="fruitSaturation">S</label>
+								<input type="number" id="fruitSaturation" min=0 max=100 step=1 value=50>
+								|
+								<label for="fruitLightness">L</label>
+								<input type="number" id="fruitLightness" min=0 max=100 step=1 value=50>
+							</div>
+						</li>
+						<li>
+							<p><input type="checkbox" id="includeMaxFruitColor" checked>Max Color:</p>
+							<div id="fruitMaxColor">
+								<label for="fruitHueVar">H</label>
+								<input type="number" id="fruitHueVar" min=0 max=360 step=1 value=360>
+								|
+								<label for="fruitSaturationVar">S</label>
+								<input type="number" id="fruitSaturationVar" min=0 max=100 step=1 value=100>
+								|
+								<label for="fruitLightnessVar">L</label>
+								<input type="number" id="fruitLightnessVar" min=0 max=100 step=1 value=25>
+							</div>
+						</li>
+					</ul>
+				</section>
+				<section id="petalControls">
+					<h2>Petal Controls</h2>
+					<ul>
+						<li>
+							<label for="petalCount">Petal Amount (divergence presets)</label>
+							<input id="petalCount" type="number" min=1 max=30 step=1 value=5>
+						</li>
+						<li>
+							<p>
+							<input type="checkbox" id="includeCustomDivergence">
+							<label for="customDivergence" disabled>Custom Divergence Angle</label>
+							</p>
+							<input id="customDivergence" type="number" value=137.6 min=-360 max=360 step=.1 disabled>
+						</li>
+						<li>
+							<label for="petalRadius">Petal Length</label>
+							<input id="petalRadius" type="number" min=0 max=160 step=1 value=60>
+						</li>
+						<li>
+							<label for="petalWidth">Petal Width</label>
+							<input id="petalWidth" type="number" min=0 max=160 step=1 value=30>
+						</li>
+						<li>
+							<p>Color:</p>
+							<div id="petalMinColor">
+								<label for="petalHue">H</label>
+								<input type="number" id="petalHue" min=0 max=360 step=1 value=300>
+								|
+								<label for="petalSaturation">S</label>
+								<input type="number" id="petalSaturation" min=0 max=100 step=1 value=50>
+								|
+								<label for="petalLightness">L</label>
+								<input type="number" id="petalLightness" min=0 max=100 step=1 value=50>
+							</div>
+						</li>
+						<li>
+							<p><input type="checkbox" id="includeMaxPetalColor" checked>Max Color:</p>
+							<div id="petalMaxColor">
+								<label for="petalHueVar">H</label>
+								<input type="number" id="petalHueVar" min=0 max=360 step=1 value=360>
+								|
+								<label for="petalSaturationVar">S</label>
+								<input type="number" id="petalSaturationVar" min=0 max=100 step=1 value=100>
+								|
+								<label for="petalLightnessVar">L</label>
+								<input type="number" id="petalLightnessVar" min=0 max=100 step=1 value=25>
+							</div>
+						</li>
+					</ul>
+				</section>
+				<section id="seedControls">
+					<h2>Flower Center/Seeds Controls</h2>
+					<ul>
+						<li>
+							<label for="seedRadius">Flower Center Radius</label>
+							<input id="seedRadius" type="number" min=0 max=60 step=1 value=20>
+						</li>
+						<li>
+							<label for="seedSize">Seed Size</label>
+							<input id="seedSize" type="number" min=1 max=20 step=1 value=2> 
+						</li>
+						<li>
+							<p>Color:</p>
+							<div id="seedMinColor">
+								<label for="seedHue">H</label>
+								<input type="number" id="seedHue" min=0 max=360 step=1 value=40>
+								|
+								<label for="seedSaturation">S</label>
+								<input type="number" id="seedSaturation" min=0 max=100 step=1 value=50>
+								|
+								<label for="seedLightness">L</label>
+								<input type="number" id="seedLightness" min=0 max=100 step=1 value=50>
+							</div>
+						</li>
+						<li>
+							<p><input type="checkbox" id="includeMaxSeedColor" checked>Max Color:</p>
+							<div id="seedMaxColor">
+								<label for="seedHueVar">H</label>
+								<input type="number" id="seedHueVar" min=0 max=360 step=1 value=60>
+								|
+								<label for="seedSaturationVar">S</label>
+								<input type="number" id="seedSaturationVar" min=0 max=100 step=1 value=100>
+								|
+								<label for="seedLightnessVar">L</label>
+								<input type="number" id="seedLightnessVar" min=0 max=100 step=1 value=25>
+							</div>
+						</li>
+					</ul>
+				</section>
+			</aside>
+		</section>
+		
+		
+		<script src="js/lepLIB.js"></script>
+		<script src="js/index.js"></script>
+	</body>
+</html>

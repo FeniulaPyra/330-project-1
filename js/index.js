@@ -1,10 +1,13 @@
 'use strict'
 
-let canvas = document.querySelector("canvas");
+let canvas = document.querySelector("canvas#flower");
 let ctx = canvas.getContext("2d");
 
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
+
+let maxSpeed = 1;
+let minSize = 10;
 
 //lepLIB.generateStem(ctx, 160, 160, 160, 15, 5, 30, 80, 30, 40, 90, 40);
 //lepLIB.generateTreeTop(ctx, 160,160, 0,50, 0, 100,75,50, 150,100,50);
@@ -26,6 +29,7 @@ class Stem {
 		this.maxColor = new HSLColor();
 	}
 	generate(ctx, x, y) {
+		if(this.width <= 0) return;
 		lepLIB.generateStem(
 			ctx, x, y,
 			this.height, this.width,
@@ -61,7 +65,7 @@ class Tree {
 	}
 	
 	generate(ctx) {
-		cls(ctx);
+		//cls(ctx);
 		this.stem.generate(ctx, this.x, this.y);
 		lepLIB.generateTreeTop(
 			ctx, this.x, this.y,
@@ -102,6 +106,7 @@ class Flower {
 		this.petals = {
 			radius: 0,
 			amount: 0,
+			width: 0,
 			divergenceAngle: 0,
 			maxColor: new HSLColor(),
 			minColor: new HSLColor()
@@ -116,12 +121,10 @@ class Flower {
 	}
 	generate(ctx) {
 		//ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-		cls(ctx);
+		//cls(ctx);
 		
 		this.stem.generate(ctx, this.x, this.y);
-		
-		console.log("in flower.generate");
-		
+				
 		lepLIB.generatePetals(
 			ctx, this.x, this.y,
 			this.stem.height,
@@ -154,13 +157,16 @@ class Flower {
 
 
 function reGenerate(ctx) {
+	//clearFloraEditor(ctx);
+	ctx.clearRect(0,0,canvasWidth, canvasHeight);
+	
 	if(isTree)
 		tree.generate(ctx);
 	else
 		flower.generate(ctx);
 }
-
-function cls(ctx) {
+function clearFloraEditor(ctx) {
+	
 	ctx.save();
 	
 	//sky
@@ -186,43 +192,6 @@ function cls(ctx) {
 	
 	ctx.restore();
 }
-
-/*
-const colors = {
-	"pink":new HSLColor(0, 100, 75),
-	"red":new HSLColor(0, 100, 50),
-	"yellow":new HSLColor(60, 100, 50),
-	"green":new HSLColor(120, 100, 50),
-	"cyan":new HSLColor(180, 100, 50),
-	"blue":new HSLColor(240, 100, 50),
-	"magenta":new HSLColor(300, 100, 50),
-
-};
-*/
-/*
-let testStem = new Stem();
-
-testStem.height = 160;
-testStem.width = 10;
-testStem.wiggle = 10;
-testStem.maxColor = new HSLColor(180, 50, 50);
-
-let testTree = new Tree(testStem);
-
-testTree.x = 160;
-testTree.y = 320;
-
-testTree.leaves.radius = 50;
-testTree.leaves.jitter = 0;
-testTree.leaves.minColor = colors["blue"];
-testTree.leaves.maxColor = colors["green"];
-
-testTree.fruit.radius = 10;
-testTree.fruit.amount = 10;
-testTree.fruit.minColor = colors["pink"];
-testTree.fruit.maxColor = colors["red"];
-
-testTree.generate(ctx);*/
 
 let stem = new Stem();
 stem.height = 160;
@@ -380,39 +349,39 @@ tree.leaves.maxColor = new HSLColor(
 
 leafControls.radius.addEventListener("change", function(e){
 	tree.leaves.radius = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 leafControls.jitter.addEventListener("change", function(e){
 	tree.leaves.jitter = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 
 leafControls.minHue.addEventListener("change", function(e){
 	tree.leaves.minColor.hue = parseInt(e.target.value);
 	e.target.style.backgroundColor = `hsl(${parseInt(e.target.value)}, 50%, 70%)`;
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 leafControls.minSat.addEventListener("change", function(e){
 	tree.leaves.minColor.saturation = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 leafControls.minLig.addEventListener("change", function(e){
 	tree.leaves.minColor.lightness = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 
 leafControls.maxHue.addEventListener("change", function(e){
 	tree.leaves.maxColor.hue = parseInt(e.target.value);
 	e.target.style.backgroundColor = `hsl(${parseInt(e.target.value)}, 50%, 70%)`;
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 leafControls.maxSat.addEventListener("change", function(e){
 	tree.leaves.maxColor.saturation = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 leafControls.maxLig.addEventListener("change", function(e){
 	tree.leaves.maxColor.lightness = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 
 leafControls.varCol.addEventListener("change", function(e){
@@ -434,7 +403,7 @@ leafControls.varCol.addEventListener("change", function(e){
 		tree.leaves.maxColor.saturation = parseInt(leafControls.minSat.value);
 		tree.leaves.maxColor.lightness = parseInt(leafControls.minLig.value);
 	}
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 })();
 //fruit controls
@@ -470,39 +439,39 @@ tree.fruit.maxColor = new HSLColor(
 
 fruitControls.radius.addEventListener("change", function(e){
 	tree.fruit.radius = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 fruitControls.amount.addEventListener("change", function(e){
 	tree.fruit.amount = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 
 fruitControls.minHue.addEventListener("change", function(e){
 	tree.fruit.minColor.hue = parseInt(e.target.value);
 	e.target.style.backgroundColor = `hsl(${parseInt(e.target.value)}, 50%, 70%)`;
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 fruitControls.minSat.addEventListener("change", function(e){
 	tree.fruit.minColor.saturation = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 fruitControls.minLig.addEventListener("change", function(e){
 	tree.fruit.minColor.lightness = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 
 fruitControls.maxHue.addEventListener("change", function(e){
 	tree.fruit.maxColor.hue = parseInt(e.target.value);
 	e.target.style.backgroundColor = `hsl(${parseInt(e.target.value)}, 50%, 70%)`;
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 fruitControls.maxSat.addEventListener("change", function(e){
 	tree.fruit.maxColor.saturation = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 fruitControls.maxLig.addEventListener("change", function(e){
 	tree.fruit.maxColor.lightness = parseInt(e.target.value);
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 
 fruitControls.varCol.addEventListener("change", function(e){
@@ -524,11 +493,9 @@ fruitControls.varCol.addEventListener("change", function(e){
 		tree.fruit.maxColor.saturation = parseInt(fruitControls.minSat.value);
 		tree.fruit.maxColor.lightness = parseInt(fruitControls.minLig.value);
 	}
-	tree.generate(ctx);
+	reGenerate(ctx);
 });
 })();
-
-//tree.generate(ctx);
 
 //flower stuff🌷
 //petalControls
@@ -568,7 +535,7 @@ flower.petals.maxColor = new HSLColor(
 
 petalControls.amount.addEventListener("change", function(e) {
 	flower.petals.amount = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 petalControls.includeCustDiv.addEventListener("change", function(e) {
 	//flower.petals.amount = parseInt(petalcontrols.amount.value);
@@ -580,47 +547,47 @@ petalControls.includeCustDiv.addEventListener("change", function(e) {
 		flower.petals.divergenceAngle = -1;
 		petalControls.custDiv.disabled = true;
 	}
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 petalControls.custDiv.addEventListener("change", function(e) {
 	flower.petals.divergenceAngle = parseFloat(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 petalControls.radius.addEventListener("change", function(e) {
 	flower.petals.radius = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 petalControls.width.addEventListener("change", function(e) {
 	flower.petals.width = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 
 petalControls.minHue.addEventListener("change", function(e) {
 	flower.petals.minColor.hue = parseInt(e.target.value);
 	e.target.style.backgroundColor = `hsl(${parseInt(e.target.value)}, 50%, 70%)`;
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 petalControls.minSat.addEventListener("change", function(e) {
 	flower.petals.minColor.saturation = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 petalControls.minLig.addEventListener("change", function(e) {
 	flower.petals.minColor.lightness = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 
 petalControls.maxHue.addEventListener("change", function(e) {
 	flower.petals.maxColor.hue = parseInt(e.target.value);
 	e.target.style.backgroundColor = `hsl(${parseInt(e.target.value)}, 50%, 70%)`;
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 petalControls.maxSat.addEventListener("change", function(e) {
 	flower.petals.maxColor.saturation = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 petalControls.maxLig.addEventListener("change", function(e) {
 	flower.petals.maxColor.lightness = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 
 petalControls.varCol.addEventListener("change", function(e) {
@@ -642,7 +609,7 @@ petalControls.varCol.addEventListener("change", function(e) {
 		flower.petals.maxColor.saturation = parseInt(petalControls.minSat.value);
 		flower.petals.maxColor.lightness = parseInt(petalControls.minLig.value);
 	}
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 })();
 
@@ -678,39 +645,39 @@ flower.seeds.maxColor = new HSLColor(
 
 seedControls.radius.addEventListener("change", function(e){
 	flower.seeds.radius = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 seedControls.seedSize.addEventListener("change", function(e){
 	flower.seeds.seedSize = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 
 seedControls.minHue.addEventListener("change", function(e){
 	flower.seeds.minColor.hue = parseInt(e.target.value);
 	e.target.style.backgroundColor = `hsl(${parseInt(e.target.value)}, 50%, 70%)`;
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 seedControls.minSat.addEventListener("change", function(e){
 	flower.seeds.minColor.saturation = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 seedControls.minLig.addEventListener("change", function(e){
 	flower.seeds.minColor.lightness = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 
 seedControls.maxHue.addEventListener("change", function(e){
 	flower.seeds.maxColor.hue = parseInt(e.target.value);
 	e.target.style.backgroundColor = `hsl(${parseInt(e.target.value)}, 50%, 70%)`;
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 seedControls.maxSat.addEventListener("change", function(e){
 	flower.seeds.maxColor.saturation = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 seedControls.maxLig.addEventListener("change", function(e){
 	flower.seeds.maxColor.lightness = parseInt(e.target.value);
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 
 seedControls.varCol.addEventListener("change", function(e){
@@ -732,8 +699,195 @@ seedControls.varCol.addEventListener("change", function(e){
 		flower.seeds.maxColor.saturation = parseInt(seedControls.minSat.value);
 		flower.seeds.maxColor.lightness = parseInt(seedControls.minLig.value);
 	}
-	flower.generate(ctx);
+	reGenerate(ctx);
 });
 })();
 
 reGenerate(ctx);
+
+//world generation stuff 🌎
+let worldCanvas = document.querySelector("canvas#world");
+worldCanvas.width = window.innerWidth;//outerWidth;
+worldCanvas.height = window.innerHeight;
+
+let worldWidth = worldCanvas.width;
+let worldHeight = worldCanvas.height;
+let worldHorizon = worldCanvas.height/3;
+
+let worldCtx = worldCanvas.getContext("2d");
+
+let floraList = [];
+
+let generatingFlora = [];
+let generatingFloraPos = [];
+
+let saveButton = document.querySelector("#saveFlora");
+saveButton.addEventListener("click", function(e) {
+	/*
+	if(isTree)
+		floraList.push(copyFlora(tree));
+	else
+		floraList.push(copyFlora(flower));
+	let flora = new Image;
+	flora.src = canvas.toDataURL("image/png");*/
+	
+	floraList.push(canvas.toDataURL("image/png"));
+	
+	//console.log(floraList[floraList.length-1]);
+});
+
+
+function clearWorld() {
+	worldCtx.clearRect(0,0, worldWidth, worldHeight);
+	worldCtx.save();
+	
+	//sky
+	let sky = worldCtx.createLinearGradient(0, 0, 0, worldHorizon);
+	sky.addColorStop(0, "#aaf");
+	sky.addColorStop(1, "#bbf");
+	
+	worldCtx.fillStyle = sky;
+	worldCtx.beginPath()
+	worldCtx.rect(0, 0, worldWidth, worldHeight);
+	worldCtx.closePath();
+	worldCtx.fill();
+	
+	let land = ctx.createLinearGradient(0, worldHorizon, 0, worldHeight);
+	land.addColorStop(0, "#beb");
+	land.addColorStop(1, "#afa");
+	
+	worldCtx.fillStyle = land;
+	worldCtx.beginPath();
+	worldCtx.rect(0, worldHorizon, worldWidth, worldHeight);
+	worldCtx.closePath();
+	worldCtx.fill();
+	
+	worldCtx.restore();
+}
+
+//this is really gross, sorry
+function copyFlora(flora) {
+	let newFlora;
+
+	//copy stem
+	let newStem = new Stem();
+	newStem.height = flora.stem.height;
+	newStem.width = flora.stem.width;
+	newStem.wiggle = flora.stem.wiggle;
+	newStem.minColor = flora.stem.minColor;
+	newStem.maxColor = flora.stem.maxColor;
+	
+	//copy tree
+	if(flora.leaves != undefined) {
+		newFlora = new Tree(newStem);
+		//copy leaves
+		newFlora.leaves.radius = flora.leaves.radius;
+		newFlora.leaves.jitter = flora.leaves.jitter;
+		newFlora.leaves.minColor = new HSLColor(flora.leaves.minColor.hue,
+												flora.leaves.minColor.saturation,
+												flora.leaves.minColor.lightness);
+		newFlora.leaves.maxColor = new HSLColor(flora.leaves.maxColor.hue,
+												flora.leaves.maxColor.saturation,
+												flora.leaves.maxColor.lightness);
+		
+		//copy fruit
+		newFlora.fruit.radius = flora.fruit.radius;
+		newFlora.fruit.amount = flora.fruit.amount;
+		newFlora.fruit.minColor = new HSLColor(flora.fruit.minColor.hue,
+											   flora.fruit.minColor.saturation,
+											   flora.fruit.minColor.lightness);
+		newFlora.fruit.maxColor = new HSLColor(flora.fruit.maxColor.hue,
+											   flora.fruit.maxColor.saturation,
+											   flora.fruit.maxColor.lightness);
+		
+	}
+	//copy flower
+	else {
+		newFlora = new Flower(newStem);
+		//copy petals
+		newFlora.petals.radius = flora.petals.radius;
+		newFlora.petals.amount = flora.petals.amount;
+		newFlora.petals.width = flora.petals.width;
+		newFlora.petals.divergenceAngle = flora.petals.divergenceAngle;
+		newFlora.petals.minColor = new HSLColor(flora.petals.minColor.hue,
+												flora.petals.minColor.saturation,
+												flora.petals.minColor.lightness);
+		newFlora.petals.maxColor = new HSLColor(flora.petals.maxColor.hue,
+												flora.petals.maxColor.saturation,
+												flora.petals.maxColor.lightness);
+		
+		//copy seeds
+		newFlora.seeds.radius = flora.seeds.radius;
+		newFlora.seeds.seedSize = flora.seeds.seedSize;
+		newFlora.seeds.minColor = new HSLColor(flora.seeds.minColor.hue,
+											   flora.seeds.minColor.saturation,
+											   flora.seeds.minColor.lightness);
+		newFlora.seeds.maxColor = new HSLColor(flora.seeds.maxColor.hue,
+											   flora.seeds.maxColor.saturation,
+											   flora.seeds.maxColor.lightness);
+	}
+	
+	newFlora.x = 0;
+	newFlora.y = 0;
+	
+	return newFlora;
+}
+
+function animateWorld() {
+	requestAnimationFrame(animateWorld);
+
+	//possibly adds new flora;
+	let pickedFloraID = lepLIB.getRandomInt(0, floraList.length + 50);	
+	if(pickedFloraID < floraList.length) {
+		
+		console.log("adding flora instance");
+		
+		//creates image tag to hold flora img data
+		let pickedFlora = new Image;
+		
+		//gets a random y position for the new flower to generate
+		let pickedFloraY = lepLIB.getRandomInt(worldHorizon, worldHeight);
+		
+		//sets the source image of the img tag
+		pickedFlora.src = floraList[pickedFloraID];
+
+		//the flora and its x and y positions
+		let floraInfo = {img: pickedFlora, x: 0, y: pickedFloraY};
+		
+		//console.log({img: pickedFlora, x: 0, y: pickedFloraY});
+		generatingFlora.push({img: pickedFlora, x: 0, y: pickedFloraY});
+
+		//adds the newly selected flora img tag to the generating flowers list
+		//generatingFlora.push(pickedFlora);
+		//adds the corresponding points of the flora to the list of positions
+		//generatingFloraPos.push([0, pickedFloraY]);
+	}
+
+	generatingFlora.sort(function(a,b){return a.y - b.y;});
+	clearWorld();
+	//moves the flora relative to their y position
+	for(let i = 0; i < generatingFlora.length; i++) {
+		let currentFlora = generatingFlora[i];
+		
+		//adjusts the size of the flora depending on how close it is to the viewer
+		let floraSize = (currentFlora.y-worldHorizon)/(worldHeight-worldHorizon) * (currentFlora.img.width - minSize) + minSize;
+		
+		//moves the flora across the x axis according to its position on the y axis
+		currentFlora.x += maxSpeed * ((currentFlora.y)/(worldHeight - worldHorizon));
+		
+		//draws the image
+		worldCtx.drawImage(currentFlora.img, 
+						   currentFlora.x - floraSize, 
+						   currentFlora.y - floraSize, 
+						   floraSize, floraSize);
+		
+		//deletes offscreen floras
+		if(currentFlora.x > worldWidth + floraSize) {
+			generatingFlora.splice(i, 1);
+			//generatingFloraPos.splice(i, 1);
+		}
+		
+	}
+}
+
+animateWorld();

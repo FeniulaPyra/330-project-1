@@ -91,10 +91,13 @@ let lepLIB = {
 	
 	
 	generatePetals(ctx, flowerX, flowerY, flowerHeight, petalRadius, petalCount, customDivergence, petalDotSize, hue, saturation, lightness, hMax, sMax, lMax) {		
+		
+		if(petalCount <= 0 || petalRadius <= 0 || petalDotSize <= 0) return;
+		
 		//center of the actual flower
 		let centerX = flowerX;
 		let centerY = flowerY - flowerHeight;
-				
+			
 		//if there is no custom divergence given, convert the number of petals into a divergence angle
 		if (customDivergence == -1) customDivergence = 360/petalCount;
 		
@@ -117,19 +120,11 @@ let lepLIB = {
 			lepLIB.drawCircle(ctx, x, y, petalDotSize - petalDotSize * r/petalRadius, `hsl(${currentH},${currentS}%,${currentL}%)`);//lepLIB.getRandomHSLRange(hue, saturation, lightness, hMax, sMax, lMax));
 		}
 		
-		//sine wave stuff i decided against
-		/*for(let t = 0; t < 2 * Math.PI; t+= Math.PI/60) {
-
-			let r = petalRadius * (Math.sin(petalCount * t) + centerRadius);
-			lepLIB.drawLine(ctx,
-							centerRadius * Math.cos(t) + centerX, centerRadius * Math.sin(t) + centerY,
-							r * Math.cos(t) + centerX, r * Math.sin(t) + centerY, 
-							1, lepLIB.getRandomHSLRange(hue,saturation,lightness, hMax, sMax, lMax));
-							//lepLIB.getRandomColorRange(red, green, blue, redVariation, greenVariation, blueVariation));
-		}*/
 	},
 	
 	generateCenter(ctx, flowerX, flowerY, flowerHeight, centerRadius, seedSize, hue, saturation, lightness, hMax, sMax, lMax) {
+		
+		if(centerRadius <= 0 || seedSize <= 0) return;
 		
 		let hDifference = hMax - hue;
 		let sDifference = sMax - saturation;
@@ -152,6 +147,8 @@ let lepLIB = {
 	
 	generateStem(ctx, flowerX, flowerY, height, width, wiggle, hue, saturation, lightness, hMax, sMax, lMax) {
 		
+		if(width <= 0) return;
+		
 		for(let y = flowerY; y > flowerY - height; y -= width/2) {
 						
 			let x = Math.sin(y * (2 * Math.PI)/height) * wiggle;
@@ -167,9 +164,6 @@ let lepLIB = {
 			let n = 0;
 			let fruitX = lepLIB.getRandomInt(treeRadius/3, treeRadius + leafJitter) * Math.cos(lepLIB.getRandomInt(0, 360) * Math.PI/180) + treeX;
 			let fruitY = lepLIB.getRandomInt(treeRadius/3, treeRadius + leafJitter) * Math.sin(lepLIB.getRandomInt(0, 360) * Math.PI/180) + treeY - treeHeight;
-			
-			console.log("fruit x: " + fruitX);
-			console.log("fruit Y: " + fruitY);
 			
 			while(n <= fruitRadius) {
 				let a = n * divergence * Math.PI/180;

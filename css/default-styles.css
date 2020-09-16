@@ -4,7 +4,7 @@
 	font-family: "Itim", monospace;
 	}
 
-body {
+section#flowerGeneration {
 	padding-left: 5rem;
 	padding-right: 5rem;
 }
@@ -14,7 +14,7 @@ body {
 	text-align: center;
 }
 
-canvas {
+canvas#flower {
 	border: ridge .75rem #963;
 	display: inline;
 }
@@ -45,7 +45,6 @@ input[disabled] {
 #leafHue {
 	background: hsl(60, 50%, 70%);
 }
-
 #leafHueVar {
 	background: hsl(100, 50%, 70%);
 }
@@ -81,25 +80,24 @@ input[disabled] {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-areas: 
-		". isTree ."
+		". save . "
 		"stem main deco";
 }
 
-#floraControls>p {
-	grid-area: isTree;
-	text-align: center;
+#saveFlora {
+	grid-area: save;
 }
 
 #floraControls h2{
 	text-align: center;
 	padding: 1rem;
-	background: linear-gradient(#aaf, #bbf);
+	background: linear-gradient(#aafa, #bbfa);
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 }
 
 #floraControls section {
-	background: linear-gradient(#beb, #afa);
+	background: linear-gradient(#beba, #afaa);
 	margin: 1rem 2rem;
 	border-radius: 10px;
 }
@@ -112,4 +110,13 @@ input[disabled] {
 }
 #fruitControls, #seedControls {
 	grid-area: deco;
+}
+
+#worldGeneration {
+	position: absolute;
+	left:0;
+	right: 0;
+	width: 100vh;
+	height: 100vh;
+	z-index: -100;	
 }

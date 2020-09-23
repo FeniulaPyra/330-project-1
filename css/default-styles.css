@@ -3,20 +3,56 @@
 	margin: 0;
 	font-family: "Itim", monospace;
 	}
-
+#hideUIGroup {
+	position: fixed;
+}
 section#flowerGeneration {
 	padding-left: 5rem;
 	padding-right: 5rem;
 }
 
 #centerer {
-	width: 100%;
-	text-align: center;
+	/*width: 100%;
+	text-align: center;*/
+	padding: 1rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+#centerer * {
+	margin: 0 .5rem ;
+}
+
+#floraLists {
+	
+	display: grid;
+	grid-template-rows: 9fr 1fr;
+	grid-template-columns: 1fr 1fr;
+	grid-template-areas: "eList   dList"
+						 "dButton eButton";
+} 
+#enabledFLoraList {
+	grid-area: eList;
+}
+
+#disabledFloraList {
+	grid-area: dList;
+}
+#disableFlora {
+	grid-area: dButton;
+}
+#enableFlora {
+	grid-area: eButton;
 }
 
 canvas#flower {
 	border: ridge .75rem #963;
 	display: inline;
+}
+
+#description {
+	overflow-y:scroll;
+	max-height: 45vh;
+	background: #fffa;
 }
 
 ul {

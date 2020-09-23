@@ -6,19 +6,112 @@
 		<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="css/default-styles.css">
 		<!--meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"-->
-
+		<title>Flora World Generator</title>
 	</head>
 	<body>
+		<div id="hideUIGroup">
+			<label for="hideUI">Hide UI</label>
+			<input id="hideUI" type="checkbox">
+		</div>
 		<section id="worldGeneration">
 			<canvas id="world">
 				Will display the world on a functional browser.
 			</canvas>
 		</section>
 		<section id="flowerGeneration">
+			<div id="">
+			</div>
 			<div id="centerer">
-			<canvas id="flower" width="320" height="320">
-				Will display a generated flower on a functional browser.
-			</canvas>
+				<div id="floraLists">
+					<select id="enabledFloraList" size="15">
+					</select>
+					<button id="disableFlora">Disable Selectedd Flora</button>
+					
+					<select id="disabledFloraList" size="15">
+					</select>
+					<button id="enableFlora">Enable Selected Flora</button>
+				</div>
+				<canvas id="flower" width="320" height="320">
+					Will display a generated flower on a functional browser.
+				</canvas>
+				<section id="description">
+					<h2>Info</h2>
+					<p>
+						The Flora Generator will allow you to  create flowers, trees, and other flora
+						by changing the values for the stem, petals, seeds, leaves, and fruit of the flora.
+						Below is an explanation of the controls. It utilizes phylotaxis to generate seeds,
+						petals, fruits, and leaves of the flora, and sine waves to generate the stem of the
+						flora. It draws the flora using the Canvas API.
+						<br><br>
+					</p>
+					<h3>General Controls</h3>
+					<p>
+						Add to World: Clicking this will allow the flora you are working on to be
+						generated randomly in the world. Changing the flower after you do this will
+						not affect the world until you re-add the flower, in which case it will add
+						a second flower and not overwrite the old flower.
+						
+						<br><br>Left List/Disable Flora Button: The left list has all the possible flowers that
+						can be generated in the world. Selecting one and clicking "Disable Flora" will
+						move that flora item to the Right List.
+						<br><br>Right List/Enable Flora Button: Any flower in the Right List will not be
+						generated in the world. Clicking the Enable Flora button will move the flora
+						item back to the Left List.
+						
+						<br><br>Color: The color option changes the base color of whichever section it is
+						in. It represents the center color for things like flower petals and seeds. The
+						Color is in HSL form.
+						
+						<br><br>Max Color: This changes the outer or second color of whichever section it is
+						in. Disabling the Max Color option causes it's flora part to be a flat color.
+						
+						<br><br>Hide UI: Hides the UI so you can see your beautiful world more clearly.
+						<br><br>
+					</p>
+					<h3>Stem Controls</h3>
+					<p>
+						You can change the height and width of the stem with their respective controls.
+						<br><br>Setting height to 0 can allow you to create something that looks like a bush
+						or grass.
+						<br><br>Wiggle: Affects the amplitude of sine wave that is used to generate the stem.
+						<br><br>Creating a Tree?: Checking this box will change the flora being generated to 
+						a "tree type" with randomized leaves and fruit. Unchecking this will change the 
+						flora to be a "flower type" with gradiented petals and a center generated with 
+						phyllotaxis.
+						<br><br>
+					</p>
+					<h3>Petal Controls - Flowers</h3>
+					<p>
+						Petal Amount: Sets the Divergence Angle(see below) to 360/(petal amount) so that
+						the generated flower has a clear set of petals, rather than a swirl.
+						<br><br>Divergence Angle: Affects the "swirly-ness" of the petals.
+						More <a href="https://en.wikipedia.org/wiki/Phyllotaxis">here</a>
+						<br><br>Petal Length: Changes how far out the petals are generated.
+						<br><br>Petal Width: Changes the starting width of the petals. Setting this to 
+						larger than petal length can create some interesting effects.
+						<br><br>
+					</p>
+					<h3>Seed Controls - Flowers</h3>
+					<p>
+						Center Radius: Changes the radius of the whole center of the flower.
+						<br><br>Seed Radius: Changes the radius of each individual seed within the center.
+						<br><br>
+					</p>
+					<h3>Leaves Controls - Trees</h3>
+					<p>
+						Treetop Radius: The radius of the whole area where leaves are generated
+						<br><br>Leaf Randomness: Affects how "random" the leaves are. This includes
+						the size and location of leaves. Set to 0 to have a regular phylotaxis spiral.
+						<br><br>
+					</p>
+					<h3>Fruit Controls - Trees</h3>
+					<p>
+						Fruit Size: Affects the size of the whole fruit. Does not affect the size of the 
+						individual dots used to generate the fruit.
+						<br><br>Number of Fruits: The amount of fruit generated on the tree. Set to 0 if
+						you don't want your tree to have any fruits.
+					</p>
+				</section>
 			</div>
 			<aside id="floraControls">
 				<button id="saveFlora">Add to World</button>

@@ -542,10 +542,12 @@ petalControls.includeCustDiv.addEventListener("change", function(e) {
 	if(e.target.checked){
 		flower.petals.divergenceAngle = parseFloat(petalControls.custDiv.value);
 		petalControls.custDiv.disabled = false;
+		petalControls.amount.disabled = true;
 	}
 	else {
 		flower.petals.divergenceAngle = -1;
 		petalControls.custDiv.disabled = true;
+		petalControls.amount.disabled = false;
 	}
 	reGenerate(ctx);
 });
@@ -718,24 +720,59 @@ let worldCtx = worldCanvas.getContext("2d");
 
 let floraList = [];
 
+let disabledFloraList = document.querySelector("#disabledFloraList");
+let enabledFloraList = document.querySelector("#enabledFloraList");
+
+let disabledFlora = Array.from(disabledFloraList.querySelectorAll("option"));
+let enabledFlora = Array.from(enabledFloraList.querySelectorAll("option"));
+
 let generatingFlora = [];
 let generatingFloraPos = [];
 
 let saveButton = document.querySelector("#saveFlora");
 saveButton.addEventListener("click", function(e) {
-	/*
-	if(isTree)
-		floraList.push(copyFlora(tree));
-	else
-		floraList.push(copyFlora(flower));
-	let flora = new Image;
-	flora.src = canvas.toDataURL("image/png");*/
-	
-	floraList.push(canvas.toDataURL("image/png"));
-	
-	//console.log(floraList[floraList.length-1]);
+
+	//floraList.push(canvas.toDataURL("image/png"));
+	//let floraOption = `<option value=${canvas.toDataURL("image/png")}>Flora</option>`;
+	//enabledFloraList.innerHtml += floraOption;
+	let floraOption = document.createElement("option");
+	floraOption.value = canvas.toDataURL("image/png");
+	//makes a random id, idk what else to do rn.
+	floraOption.innerHTML = "Flora" + lepLIB.getRandomInt(0, 9999);
+	enabledFloraList.appendChild(floraOption);
+	updateFloraLists();
 });
 
+//updates lists of enabled and disabled flora
+/*disabledFloraList.addEventListener("change", function (e) {
+	disabledFlora = Array.from(disabledFloraList.querySelectorAll("option"));
+});
+enabledFloraList.addEventListener("change", function (e) {
+	enabledFlora = Array.from(enabledFloraList.querySelectorAll("option"));
+});*/
+
+let disableFloraButton = document.querySelector("#disableFlora");
+let enableFloraButton = document.querySelector("#enableFlora");
+//let selectedFlora = htmlFloraList.querySelector("[selected]");
+disableFloraButton.addEventListener("click", function(e) {
+	
+	let floraToDisable = enabledFlora[document.querySelector("#enabledFloraList").selectedIndex];
+	disabledFloraList.appendChild(floraToDisable);
+	//enabledFloraList.removeChild(floraToDisable);
+	updateFloraLists();
+	
+});
+enableFloraButton.addEventListener("click", function(e) {
+	let floraToEnable = disabledFlora[document.querySelector("#disabledFloraList").selectedIndex];
+	enabledFloraList.appendChild(floraToEnable);
+	//disabledFloraList.removeChild(floraToEnable);
+	updateFloraLists();
+});
+
+function updateFloraLists() {
+	enabledFlora = Array.from(enabledFloraList.querySelectorAll("option"));
+	disabledFlora = Array.from(disabledFloraList.querySelectorAll("option"));
+}
 
 function clearWorld() {
 	worldCtx.clearRect(0,0, worldWidth, worldHeight);
@@ -765,80 +802,12 @@ function clearWorld() {
 	worldCtx.restore();
 }
 
-//this is really gross, sorry
-function copyFlora(flora) {
-	let newFlora;
-
-	//copy stem
-	let newStem = new Stem();
-	newStem.height = flora.stem.height;
-	newStem.width = flora.stem.width;
-	newStem.wiggle = flora.stem.wiggle;
-	newStem.minColor = flora.stem.minColor;
-	newStem.maxColor = flora.stem.maxColor;
-	
-	//copy tree
-	if(flora.leaves != undefined) {
-		newFlora = new Tree(newStem);
-		//copy leaves
-		newFlora.leaves.radius = flora.leaves.radius;
-		newFlora.leaves.jitter = flora.leaves.jitter;
-		newFlora.leaves.minColor = new HSLColor(flora.leaves.minColor.hue,
-												flora.leaves.minColor.saturation,
-												flora.leaves.minColor.lightness);
-		newFlora.leaves.maxColor = new HSLColor(flora.leaves.maxColor.hue,
-												flora.leaves.maxColor.saturation,
-												flora.leaves.maxColor.lightness);
-		
-		//copy fruit
-		newFlora.fruit.radius = flora.fruit.radius;
-		newFlora.fruit.amount = flora.fruit.amount;
-		newFlora.fruit.minColor = new HSLColor(flora.fruit.minColor.hue,
-											   flora.fruit.minColor.saturation,
-											   flora.fruit.minColor.lightness);
-		newFlora.fruit.maxColor = new HSLColor(flora.fruit.maxColor.hue,
-											   flora.fruit.maxColor.saturation,
-											   flora.fruit.maxColor.lightness);
-		
-	}
-	//copy flower
-	else {
-		newFlora = new Flower(newStem);
-		//copy petals
-		newFlora.petals.radius = flora.petals.radius;
-		newFlora.petals.amount = flora.petals.amount;
-		newFlora.petals.width = flora.petals.width;
-		newFlora.petals.divergenceAngle = flora.petals.divergenceAngle;
-		newFlora.petals.minColor = new HSLColor(flora.petals.minColor.hue,
-												flora.petals.minColor.saturation,
-												flora.petals.minColor.lightness);
-		newFlora.petals.maxColor = new HSLColor(flora.petals.maxColor.hue,
-												flora.petals.maxColor.saturation,
-												flora.petals.maxColor.lightness);
-		
-		//copy seeds
-		newFlora.seeds.radius = flora.seeds.radius;
-		newFlora.seeds.seedSize = flora.seeds.seedSize;
-		newFlora.seeds.minColor = new HSLColor(flora.seeds.minColor.hue,
-											   flora.seeds.minColor.saturation,
-											   flora.seeds.minColor.lightness);
-		newFlora.seeds.maxColor = new HSLColor(flora.seeds.maxColor.hue,
-											   flora.seeds.maxColor.saturation,
-											   flora.seeds.maxColor.lightness);
-	}
-	
-	newFlora.x = 0;
-	newFlora.y = 0;
-	
-	return newFlora;
-}
-
 function animateWorld() {
 	requestAnimationFrame(animateWorld);
 
 	//possibly adds new flora;
-	let pickedFloraID = lepLIB.getRandomInt(0, floraList.length + 50);	
-	if(pickedFloraID < floraList.length) {
+	let pickedFloraID = lepLIB.getRandomInt(0, enabledFlora.length + 50);	
+	if(pickedFloraID < enabledFlora.length) {
 		
 		console.log("adding flora instance");
 		
@@ -849,7 +818,7 @@ function animateWorld() {
 		let pickedFloraY = lepLIB.getRandomInt(worldHorizon, worldHeight);
 		
 		//sets the source image of the img tag
-		pickedFlora.src = floraList[pickedFloraID];
+		pickedFlora.src = enabledFlora[pickedFloraID].value//floraList[pickedFloraID];
 
 		//the flora and its x and y positions
 		let floraInfo = {img: pickedFlora, x: 0, y: pickedFloraY};
@@ -889,5 +858,11 @@ function animateWorld() {
 		
 	}
 }
+
+document.querySelector("#hideUI").addEventListener("change", function(e) {
+	let checked = e.target.checked;
+	let ui = document.querySelector("#flowerGeneration");
+	ui.style.display = checked?"none":"block";
+});
 
 animateWorld();

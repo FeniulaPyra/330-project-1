@@ -9,31 +9,35 @@
 		<title>Flora World Generator</title>
 	</head>
 	<body>
+		<h1>Plant World Generator</h1>
+
 		<div id="hideUIGroup">
 			<label for="hideUI">Hide UI</label>
 			<input id="hideUI" type="checkbox">
 		</div>
-		<section id="worldGeneration">
+		<div id="worldGeneration">
 			<canvas id="world">
 				Will display the world on a functional browser.
 			</canvas>
-		</section>
-		<section id="flowerGeneration">
-			<div id="">
-			</div>
-			<div id="centerer">
+		</div>
+		<div id="flowerGeneration">
+			<div id="info">
 				<div id="floraLists">
+					<h3 id="enabledFloraLabel">Flora In World</h3>
 					<select id="enabledFloraList" size="15">
 					</select>
-					<button id="disableFlora">Disable Selectedd Flora</button>
+					<button id="disableFlora">Hide Selected Flora</button>
 					
+					<h3 id="disabledFloraLabel">Flora not in World</h3>
 					<select id="disabledFloraList" size="15">
 					</select>
-					<button id="enableFlora">Enable Selected Flora</button>
+					<button id="enableFlora">Show Selected Flora</button>
 				</div>
-				<canvas id="flower" width="320" height="320">
-					Will display a generated flower on a functional browser.
-				</canvas>
+				<div id="centerer">
+					<canvas id="flower" width="320" height="320">
+						Will display a generated flower on a functional browser.
+					</canvas>
+				</div>
 				<section id="description">
 					<h2>Info</h2>
 					<p>
@@ -128,7 +132,7 @@
 						</li>
 						<li>
 							<label for="stemWiggle">Wiggle</label>
-							<input type="number" id="stemWiggle" min=0, max=50 step=1 value=5>
+							<input type="number" id="stemWiggle" min=0 max=50 step=1 value=5>
 						</li>
 						<li>
 							<p>Color:</p>
@@ -249,7 +253,7 @@
 						<li>
 							<p>
 							<input type="checkbox" id="includeCustomDivergence">
-							<label for="customDivergence" disabled>Custom Divergence Angle</label>
+							<label for="customDivergence">Custom Divergence Angle</label>
 							</p>
 							<input id="customDivergence" type="number" value=137.6 min=-360 max=360 step=.1 disabled>
 						</li>
@@ -329,7 +333,7 @@
 					</ul>
 				</section>
 			</aside>
-		</section>
+		</div>
 		
 		
 		<script src="js/lepLIB.js"></script>

@@ -755,15 +755,22 @@ let disableFloraButton = document.querySelector("#disableFlora");
 let enableFloraButton = document.querySelector("#enableFlora");
 //let selectedFlora = htmlFloraList.querySelector("[selected]");
 disableFloraButton.addEventListener("click", function(e) {
+	let selectedIndex = document.querySelector("#enabledFloraList").selectedIndex;
 	
-	let floraToDisable = enabledFlora[document.querySelector("#enabledFloraList").selectedIndex];
+	if(selectedIndex < 0) return;
+	
+	let floraToDisable = enabledFlora[selectedIndex];
 	disabledFloraList.appendChild(floraToDisable);
 	//enabledFloraList.removeChild(floraToDisable);
 	updateFloraLists();
 	
 });
 enableFloraButton.addEventListener("click", function(e) {
-	let floraToEnable = disabledFlora[document.querySelector("#disabledFloraList").selectedIndex];
+	let selectedIndex = document.querySelector("#disabledFloraList").selectedIndex;
+	
+	if(selectedIndex < 0)
+		return;
+	let floraToEnable = disabledFlora[selectedIndex];
 	enabledFloraList.appendChild(floraToEnable);
 	//disabledFloraList.removeChild(floraToEnable);
 	updateFloraLists();
@@ -808,9 +815,7 @@ function animateWorld() {
 	//possibly adds new flora;
 	let pickedFloraID = lepLIB.getRandomInt(0, enabledFlora.length + 50);	
 	if(pickedFloraID < enabledFlora.length) {
-		
-		console.log("adding flora instance");
-		
+				
 		//creates image tag to hold flora img data
 		let pickedFlora = new Image;
 		

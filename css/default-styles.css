@@ -6,34 +6,54 @@
 #hideUIGroup {
 	position: fixed;
 }
-section#flowerGeneration {
+#flowerGeneration {
 	padding-left: 5rem;
 	padding-right: 5rem;
 }
 
-#centerer {
+h1 {
+	text-align: center;
+	padding: .5rem 1rem;
+	background: linear-gradient(#aafa, #bbfa);
+}
+
+#info {
 	/*width: 100%;
 	text-align: center;*/
 	padding: 1rem;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 }
-#centerer * {
+#info > * {
 	margin: 0 .5rem ;
+}
+
+#centerer {
+	height: 344px;
+	width: 100%;
+	text-align: center;
 }
 
 #floraLists {
 	
 	display: grid;
-	grid-template-rows: 9fr 1fr;
+	grid-template-rows: 1fr 9fr 1fr;
 	grid-template-columns: 1fr 1fr;
-	grid-template-areas: "eList   dList"
+	grid-template-areas: "eTitle  dTitle"
+						 "eList   dList"
 						 "dButton eButton";
 } 
+#enabledFloraLabel {
+	grid-area: eTitle;
+	text-align: center;
+}
+#disabledFloraLabel {
+	grid-area: dTitle;
+	text-align: center;
+}
 #enabledFLoraList {
 	grid-area: eList;
 }
-
 #disabledFloraList {
 	grid-area: dList;
 }
@@ -149,8 +169,8 @@ input[disabled] {
 }
 
 #worldGeneration {
-	position: absolute;
-	left:0;
+	position: fixed;
+	left: 0;
 	right: 0;
 	width: 100vh;
 	height: 100vh;
